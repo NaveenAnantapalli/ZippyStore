@@ -9,6 +9,6 @@ public class UserController {
 
      @RequestMapping(path = "/userlogin")
     public String testMethod(){
-        return "Hello World!";
+        return "Hey Xynee!";
      }
 }
