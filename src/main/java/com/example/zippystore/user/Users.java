@@ -3,7 +3,6 @@ package com.example.zippystore.user;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 @Entity
 @Table(name = "tblUser")
@@ -38,7 +37,7 @@ public class Users {
     private LocalDate userDOB;
 
     @Transient
-    private Integer age;
+    private Integer userAge;
 
     public Users() {
     }
@@ -100,11 +99,11 @@ public class Users {
         this.userDOB = userDOB;
     }
 
-    public Integer getAge() {
+    public Integer getUserAge() {
         return Period.between(this.userDOB, LocalDate.now()).getYears();
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setUserAge(Integer userAge) {
+        this.userAge = userAge;
     }
 }
