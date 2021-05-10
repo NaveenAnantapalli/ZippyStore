@@ -30,10 +30,18 @@ public class MerchantProductMappings {
     @JoinColumn(name = "merchant_id")
     private Merchants merchantId;
 
-    @Column(name = "weights")
-    private String weights;
+    @Column(name = "product_weights")
+    private String productWeights;
+
+    @Column(name = "product_price")
+    private Float productPrice;
+
+    @Column(name= "product_availability")
+    private String productAvailability;
 
     public MerchantProductMappings() {
     }
+
+
 
 }
