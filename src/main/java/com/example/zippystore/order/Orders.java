@@ -36,5 +36,7 @@ public class Orders {
     @JoinColumn(name = "merchant_id")
     private Merchants merchantId;
 
+    @Transient
+    private Float totalPrice;
 
 }
