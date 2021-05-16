@@ -4,6 +4,7 @@ import com.example.zippystore.merchant.Merchants;
 import com.example.zippystore.user.Users;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tblOrders")
@@ -24,6 +25,9 @@ public class Orders {
 
     @Column(name = "order_status")
     private String orderStatus;
+
+    @Column(name = "order_date")
+    private LocalDate orderDate;
 
     @Column(name = "product_list")
     private String productList;
