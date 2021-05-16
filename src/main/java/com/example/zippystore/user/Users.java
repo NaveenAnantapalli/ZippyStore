@@ -1,12 +1,23 @@
 package com.example.zippystore.user;
 
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
+import java.util.Collections;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
 @Table(name = "tblUser")
-public class Users {
+public class Users implements UserDetails {
 
     @Id
     @SequenceGenerator(
@@ -25,7 +36,10 @@ public class Users {
     private String userName;
 
     @Column(name = "user_email")
-    private String userEmail;
+    private String email;
+
+    @Column(name = "user_password")
+    private String password;
 
     @Column(name = "user_phone_number")
     private Long userPhoneNumber;
@@ -36,66 +50,21 @@ public class Users {
     @Column(name = "user_dob")
     private LocalDate userDOB;
 
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    private Boolean locked;
+
+    private Boolean enabled;
+
     @Transient
     private Integer userAge;
 
-    public Users() {
-    }
-
-    public Users(Long userId, String userName, String userEmail, Long userPhoneNumber, String userAddress, LocalDate userDOB) {
-        this.userId = userId;
+    public Users(String userName, String email, Long userPhoneNumber, String userAddress, LocalDate userDOB) {
         this.userName = userName;
-        this.userEmail = userEmail;
+        this.email = email;
         this.userPhoneNumber = userPhoneNumber;
         this.userAddress = userAddress;
-        this.userDOB = userDOB;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public Long getUserPhoneNumber() {
-        return userPhoneNumber;
-    }
-
-    public void setUserPhoneNumber(Long userPhoneNumber) {
-        this.userPhoneNumber = userPhoneNumber;
-    }
-
-    public String getUserAddress() {
-        return userAddress;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public LocalDate getUserDOB() {
-        return userDOB;
-    }
-
-    public void setUserDOB(LocalDate userDOB) {
         this.userDOB = userDOB;
     }
 
@@ -105,5 +74,41 @@ public class Users {
 
     public void setUserAge(Integer userAge) {
         this.userAge = userAge;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+        return Collections.singletonList(authority);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }
